@@ -3,79 +3,107 @@ const ResultCard = ({ data, loading }) => {
 
   if (loading) {
     return (
-      <div className="bg-white p-5 rounded-xl shadow mt-6 animate-pulse">
-        <div className="h-6 bg-gray-300 rounded w-1/2 mb-4"></div>
-        <div className="h-4 bg-gray-200 rounded w-1/3 mb-3"></div>
-        <div className="h-4 bg-gray-200 rounded w-1/4 mb-3"></div>
-        <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+      <div className="card fade-in" style={{ marginTop: "20px", padding: "24px", display: "flex", flexDirection: "column", gap: "12px" }}>
+        <div className="skeleton" style={{ height: "13px", width: "40%", background: "var(--border-strong)" }} />
+        <div className="skeleton" style={{ height: "24px", width: "65%", marginTop: "4px", background: "var(--border-strong)" }} />
+        <div className="skeleton" style={{ height: "13px", width: "30%", marginTop: "8px", background: "var(--border-strong)" }} />
+        <div style={{ marginTop: "8px", display: "flex", flexDirection: "column", gap: "8px" }}>
+          <div className="skeleton" style={{ height: "12px", width: "90%", background: "var(--border-strong)" }} />
+          <div className="skeleton" style={{ height: "12px", width: "75%", background: "var(--border-strong)" }} />
+          <div className="skeleton" style={{ height: "12px", width: "83%", background: "var(--border-strong)" }} />
+        </div>
       </div>
     );
   }
 
-  // Handle if data is a string (stored as JSON in DB)
-  const eventData = typeof data === "string" ? JSON.parse(data) : data;
+  const d = typeof data === "string" ? JSON.parse(data) : data;
 
   return (
-    <div className="bg-white p-5 rounded-xl shadow mt-6 hover:shadow-lg transition border-2 border-green-400">
-      
-      {/* Main Info */}
-      <div className="mb-4">
-        <h2 className="text-2xl font-bold text-gray-800">
-          {eventData?.venueName || "Event Plan"}
-        </h2>
-        
-        <p className="text-lg text-gray-600 mt-2">
-          📍 <span className="font-semibold">{eventData?.location || "Location TBD"}</span>
-        </p>
+    <div className="card fade-in" style={{ marginTop: "20px", overflow: "hidden" }}>
 
-        <p className="text-lg font-semibold text-green-600 mt-2">
-          💰 {eventData?.estimatedCost || "Cost TBD"}
-        </p>
-      </div>
-
-      {/* Why It Fits */}
-      <div className="bg-blue-50 p-4 rounded-lg mb-4 border-l-4 border-blue-400">
-        <h3 className="font-bold text-blue-900 mb-2">Why It Fits 🎯</h3>
-        <p className="text-gray-700 leading-relaxed">
-          {eventData?.whyItFits || "Planning event details..."}
-        </p>
-      </div>
-
-      {/* Highlights */}
-      {eventData?.highlights && eventData.highlights.length > 0 && (
-        <div className="mt-4 mb-4">
-          <h4 className="font-bold text-gray-800 mb-2">✨ Highlights</h4>
-          <ul className="space-y-1">
-            {eventData.highlights.map((item, i) => (
-              <li key={i} className="text-gray-600 flex items-start">
-                <span className="text-green-500 mr-2">✓</span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
+      <div style={{ padding: "20px 24px", borderBottom: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "16px", flexWrap: "wrap" }}>
+        <div>
+          <p style={{ fontSize: "11px", fontWeight: "500", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--ink-3)", marginBottom: "6px" }}>
+            Recommendation
+          </p>
+          <h3 className="serif" style={{ fontSize: "22px", fontWeight: "400", color: "var(--ink)", lineHeight: "1.2", letterSpacing: "-0.01em" }}>
+            {d?.venueName || "Your Plan"}
+          </h3>
+          {d?.location && (
+            <p style={{ fontSize: "13px", color: "var(--ink-2)", marginTop: "5px" }}>
+              {d.location}
+            </p>
+          )}
         </div>
-      )}
-
-      {/* Best Time */}
-      {eventData?.bestTimeToVisit && (
-        <p className="mt-3 text-sm text-gray-600 bg-yellow-50 p-2 rounded">
-          🗓️ <span className="font-semibold">Best Time:</span> {eventData.bestTimeToVisit}
-        </p>
-      )}
-
-      {/* Tips */}
-      {eventData?.travelTips && eventData.travelTips.length > 0 && (
-        <div className="mt-4 bg-purple-50 p-3 rounded">
-          <h4 className="font-bold text-purple-900 mb-2">💡 Tips</h4>
-          <div className="space-y-1">
-            {eventData.travelTips.map((tip, i) => (
-              <p key={i} className="text-gray-700 text-sm">• {tip}</p>
-            ))}
+        {d?.estimatedCost && (
+          <div style={{ textAlign: "right", flexShrink: 0, maxWidth: "200px" }}>
+            <p style={{ fontSize: "11px", fontWeight: "500", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--ink-3)", marginBottom: "4px" }}>
+              Est. Cost
+            </p>
+            <p className="serif" style={{ fontSize: "16px", color: "var(--ink)", fontWeight: "400", wordBreak: "break-word", lineHeight: "1.4" }}>
+              {d.estimatedCost}
+            </p>
           </div>
+        )}
+      </div>
+
+      <div style={{ padding: "20px 24px", display: "flex", flexDirection: "column", gap: "20px" }}>
+
+        {d?.whyItFits && (
+          <div>
+            <p style={{ fontSize: "11px", fontWeight: "500", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--ink-3)", marginBottom: "8px" }}>
+              Why it fits
+            </p>
+            <p style={{ fontSize: "14px", color: "var(--ink-2)", lineHeight: "1.7" }}>
+              {d.whyItFits}
+            </p>
+          </div>
+        )}
+
+        {d?.highlights?.length > 0 && (
+          <div>
+            <p style={{ fontSize: "11px", fontWeight: "500", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--ink-3)", marginBottom: "10px" }}>
+              Highlights
+            </p>
+            <ul style={{ display: "flex", flexDirection: "column", gap: "7px", listStyle: "none" }}>
+              {d.highlights.map((item, i) => (
+                <li key={i} style={{ display: "flex", gap: "10px", fontSize: "14px", color: "var(--ink-2)", lineHeight: "1.5" }}>
+                  <span style={{ color: "var(--ink-3)", flexShrink: 0, marginTop: "1px" }}>—</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <div style={{ display: "grid", gridTemplateColumns: d?.bestTimeToVisit && d?.travelTips?.length ? "1fr 1fr" : "1fr", gap: "20px" }}>
+          {d?.bestTimeToVisit && (
+            <div style={{ background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: "14px 16px" }}>
+              <p style={{ fontSize: "11px", fontWeight: "500", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--ink-3)", marginBottom: "6px" }}>
+                Best time to visit
+              </p>
+              <p style={{ fontSize: "13px", color: "var(--ink-2)" }}>{d.bestTimeToVisit}</p>
+            </div>
+          )}
+
+          {d?.travelTips?.length > 0 && (
+            <div style={{ background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: "14px 16px" }}>
+              <p style={{ fontSize: "11px", fontWeight: "500", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--ink-3)", marginBottom: "8px" }}>
+                Tips
+              </p>
+              <ul style={{ display: "flex", flexDirection: "column", gap: "5px", listStyle: "none" }}>
+                {d.travelTips.map((tip, i) => (
+                  <li key={i} style={{ fontSize: "13px", color: "var(--ink-2)", lineHeight: "1.5", display: "flex", gap: "8px" }}>
+                    <span style={{ color: "var(--border-strong)", flexShrink: 0 }}>·</span>
+                    <span>{tip}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
-      )}
 
-
+      </div>
     </div>
   );
 };

@@ -1,69 +1,76 @@
 import { useState } from "react";
 import api from "../api/axios";
+import DotGrid from "../components/DotGrid";
 
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSignup = async () => {
     try {
-      const res = await api.post("/auth/signup", {
-        name,
-        email,
-        password,
-      });
-
-      // auto login after signup
+      setLoading(true);
+      const res = await api.post("/auth/signup", { name, email, password });
       localStorage.setItem("token", res.data.token);
-    if (localStorage.getItem("token")) {
-        window.location.href = "/";
-    }
+      localStorage.setItem("name", name);
+      if (localStorage.getItem("token")) window.location.href = "/";
       window.location.href = "/";
     } catch (err) {
       console.error(err);
       alert("Signup failed");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="bg-white p-6 rounded-xl shadow w-80">
-        <h2 className="text-xl mb-4 font-semibold">Signup</h2>
+    <div className="auth-page">
+      <DotGrid />
+      <div className="fade-in" style={{ width: "100%", maxWidth: "380px", position: "relative", zIndex: 1 }}>
 
-        <input
-          className="w-full p-2 border mb-2 rounded"
-          placeholder="Name"
-          onChange={(e) => setName(e.target.value)}
-        />
+        <div className="card" style={{ padding: "36px 32px" }}>
 
-        <input
-          className="w-full p-2 border mb-2 rounded"
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
+          <div style={{ marginBottom: "32px", paddingBottom: "24px", borderBottom: "1px solid var(--border)" }}>
+            <h1 className="serif" style={{ fontSize: "26px", color: "var(--ink)", letterSpacing: "-0.01em", lineHeight: 1 }}>
+              Louder. <em style={{ fontStyle: "italic", color: "var(--ink-2)" }}>AI</em>
+            </h1>
+            <p style={{ fontSize: "12px", color: "var(--ink-3)", marginTop: "6px" }}>AI-powered trip planning</p>
+          </div>
 
-        <input
-          className="w-full p-2 border mb-4 rounded"
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <h2 style={{ fontSize: "15px", fontWeight: "500", color: "var(--ink)", marginBottom: "20px" }}>Create your account</h2>
 
-        <button
-          onClick={handleSignup}
-          className="bg-black text-white w-full py-2 rounded 
-                     transition-all duration-200 
-                     hover:bg-gray-800"
-        >
-          Signup
-        </button>
+          <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+            <div>
+              <label className="label">Full name</label>
+              <input className="input" placeholder="Your name" value={name}
+                onChange={(e) => setName(e.target.value)} />
+            </div>
+            <div>
+              <label className="label">Email</label>
+              <input className="input" type="email" placeholder="you@example.com" value={email}
+                onChange={(e) => setEmail(e.target.value)} />
+            </div>
+            <div>
+              <label className="label">Password</label>
+              <input className="input" type="password" placeholder="••••••••" value={password}
+                onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleSignup()} />
+            </div>
+          </div>
 
-        <p className="text-sm mt-3 text-center">
-          Already have an account?{" "}
-          <a href="/login" className="text-blue-500">
-            Login
-          </a>
+          <button className="btn-primary" onClick={handleSignup} disabled={loading}
+            style={{ width: "100%", marginTop: "22px" }}>
+            {loading ? "Creating account…" : "Create account"}
+          </button>
+
+          <p style={{ fontSize: "13px", color: "var(--ink-3)", textAlign: "center", marginTop: "20px" }}>
+            Already have an account?{" "}
+            <a href="/login" style={{ color: "var(--ink)", textDecoration: "underline", textUnderlineOffset: "3px" }}>Sign in</a>
+          </p>
+        </div>
+
+        <p style={{ fontSize: "16px", color: "var(--ink-3)", textAlign: "center", marginTop: "20px", letterSpacing: "0.02em" }}>
+          Live LOUDER.
         </p>
       </div>
     </div>
