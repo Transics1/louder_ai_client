@@ -14,8 +14,8 @@ const Signup = () => {
       const res = await api.post("/auth/signup", { name, email, password });
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("name", name);
-      if (localStorage.getItem("token")) window.location.href = "/";
-      window.location.href = "/";
+      if (localStorage.getItem("token")) window.location.href = "/home";
+      window.location.href = "/home";
     } catch (err) {
       console.error(err);
       alert("Signup failed");

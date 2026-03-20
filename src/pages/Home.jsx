@@ -90,8 +90,8 @@ const Home = () => {
 
       <header style={{ borderBottom: "1px solid var(--border)", background: "rgba(255,255,255,0.85)", backdropFilter: "blur(12px)", position: "sticky", top: 0, zIndex: 10 }}>
         <div style={{ maxWidth: "780px", margin: "0 auto", padding: "0 28px", height: "54px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span className="serif" style={{ fontSize: "19px", color: "var(--ink)", letterSpacing: "-0.01em" }}>
-            Louder<em style={{ fontStyle: "italic", color: "var(--ink-2)" }}>AI</em>
+          <span className="serif" style={{ fontSize: "28px", color: "var(--ink)", letterSpacing: "-0.01em" }}>
+            Louder. <em style={{ fontStyle: "italic", color: "var(--ink-2)" }}>AI</em>
           </span>
           <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
             {userName && (

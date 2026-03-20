@@ -12,7 +12,7 @@ const Login = () => {
       setLoading(true);
       const res = await api.post("/auth/login", { email, password });
       localStorage.setItem("token", res.data.token);
-      window.location.href = "/";
+      window.location.href = "/home";
     } catch {
       alert("Login failed");
     } finally {
@@ -20,7 +20,7 @@ const Login = () => {
     }
   };
 
-  if (localStorage.getItem("token")) window.location.href = "/";
+  if (localStorage.getItem("token")) window.location.href = "/home";
 
   return (
     <div className="auth-page">
